@@ -3,12 +3,13 @@ import ReactDOM from "react-dom";
 import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
 import AppSyncConfig from "./aws-exports";
 import { ApolloProvider } from "react-apollo";
-import { Rehydrated } from "aws-appsync-react"; // this needs to also be installed when working with React
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 const client = new AWSAppSyncClient({
+  disableOffline: true,
+  //adding this function to debug the problem with twice inputs
   url: AppSyncConfig.aws_appsync_graphqlEndpoint,
   region: AppSyncConfig.aws_appsync_region,
   auth: {
@@ -20,9 +21,7 @@ const client = new AWSAppSyncClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Rehydrated>
-      <App />
-    </Rehydrated>
+    <App />
   </ApolloProvider>,
   document.getElementById("root")
 );
